@@ -2,7 +2,7 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 const cors = require('cors');
-
+const ObjectId = require('mongodb').ObjectId;
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -24,6 +24,13 @@ async function run() {
             const cursor = await watchCollection.find({});
             const allWatches = await cursor.toArray();
             res.send(allWatches);
+        })
+        //Get Single Watch
+        app.get('/watchItems/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id : ObjectId(id)};
+            const singleWatch = await watchCollection.findOne(query);
+            res.json(singleWatch);
         })
 
       
