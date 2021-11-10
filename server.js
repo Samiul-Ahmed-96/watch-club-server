@@ -19,6 +19,13 @@ async function run() {
         const database = client.db("watch-club");
         const watchCollection = database.collection("watch-item");
 
+        //Get All Watches
+        app.get('/watchItems',async(req,res)=>{
+            const cursor = await watchCollection.find({});
+            const allWatches = await cursor.toArray();
+            res.send(allWatches);
+        })
+
       
     }
     finally {
