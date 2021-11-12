@@ -18,6 +18,7 @@ async function run() {
         console.log('db connected')
         const database = client.db("watch-club");
         const watchCollection = database.collection("watch-item");
+        const ordersCollection =database.collection("orders");
 
         //Get All Watches
         app.get('/watchItems',async(req,res)=>{
@@ -32,7 +33,21 @@ async function run() {
             const singleWatch = await watchCollection.findOne(query);
             res.json(singleWatch);
         })
+         //Add orders Api
+         app.post('/orders',async(req,res)=>{
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.json(result);
+        })
+        //Get Orders specific orders using email
+        app.get('/orders', async(req,res)=>{
+            const email = req.query.email;
+            const query = {email : email}
+            const cursor = ordersCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
 
+        })
       
     }
     finally {
