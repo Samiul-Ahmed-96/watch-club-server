@@ -40,6 +40,14 @@ async function run() {
             const result = await ordersCollection.insertOne(order);
             res.json(result);
         })
+         //Add Product Api
+         app.post('/watchItems',async(req,res)=>{
+            console.log('hiitssss')
+            const newProduct = req.body;
+            console.log(newProduct);
+            const product = await watchCollection.insertOne(newProduct);
+            res.json(product);
+        })
         //Get Orders specific orders using email
         app.get('/orders', async(req,res)=>{
             const email = req.query.email;
