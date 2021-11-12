@@ -19,6 +19,7 @@ async function run() {
         const database = client.db("watch-club");
         const watchCollection = database.collection("watch-item");
         const ordersCollection =database.collection("orders");
+        const usersCollection =database.collection("users");
 
         //Get All Watches
         app.get('/watchItems',async(req,res)=>{
@@ -53,6 +54,13 @@ async function run() {
             const id = req.params.id;
             const query = {_id : ObjectId(id)};
             const result = await ordersCollection.deleteOne(query);
+            console.log(result)
+            res.json(result)
+        })
+        //
+        app.post('/users', async (req,res)=>{
+            const user = req.body;
+            const result = await usersCollection.insertOne(user)
             res.json(result)
         })
       
