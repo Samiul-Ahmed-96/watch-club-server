@@ -27,6 +27,12 @@ async function run() {
             const allWatches = await cursor.toArray();
             res.send(allWatches);
         })
+        //Get All Orders
+        app.get('/orders',async(req,res)=>{
+            const cursor = await ordersCollection.find({});
+            const allOrders = await cursor.toArray();
+            res.send(allOrders);
+        })
         //Get Single Watch
         app.get('/watchItems/:id',async(req,res)=>{
             const id = req.params.id;
@@ -47,15 +53,6 @@ async function run() {
             console.log(newProduct);
             const product = await watchCollection.insertOne(newProduct);
             res.json(product);
-        })
-        //Get Orders specific orders using email
-        app.get('/orders', async(req,res)=>{
-            const email = req.query.email;
-            const query = {email : email}
-            const cursor = ordersCollection.find(query);
-            const orders = await cursor.toArray();
-            res.json(orders);
-
         })
         //Delete single item from orders Api
         app.delete('/orders/:id', async (req,res)=>{
