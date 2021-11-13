@@ -20,6 +20,7 @@ async function run() {
         const watchCollection = database.collection("watch-item");
         const ordersCollection =database.collection("orders");
         const usersCollection =database.collection("users");
+        const reviewsCollection =database.collection("reviews");
 
         //Get All Watches
         app.get('/watchItems',async(req,res)=>{
@@ -32,6 +33,12 @@ async function run() {
             const cursor = await ordersCollection.find({});
             const allOrders = await cursor.toArray();
             res.send(allOrders);
+        })
+        //Get All Reviews
+        app.get('/reviews',async(req,res)=>{
+            const cursor = await reviewsCollection.find({});
+            const allReviews = await cursor.toArray();
+            res.send(allReviews);
         })
         //Get Single Watch
         app.get('/watchItems/:id',async(req,res)=>{
@@ -46,9 +53,14 @@ async function run() {
             const result = await ordersCollection.insertOne(order);
             res.json(result);
         })
-         //Add Product Api
-         app.post('/watchItems',async(req,res)=>{
-            console.log('hiitssss')
+        //Add Reviews Api
+        app.post('/reviews',async(req,res)=>{
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
+            res.json(result);
+        })
+        //Add Product Api
+        app.post('/watchItems',async(req,res)=>{
             const newProduct = req.body;
             console.log(newProduct);
             const product = await watchCollection.insertOne(newProduct);
